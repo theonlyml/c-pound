@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleApplication17
 {
@@ -13,9 +7,14 @@ namespace ConsoleApplication17
         double result;
         public Sum(string[] a)
         {
-            foreach (string el in a)
+     /*       foreach (string el in a)
             {
                 result += double.Parse(el);
+            }
+      */
+            for (int i = 1; i < a.Length; i++)
+            {
+                result += double.Parse(a[i]);
             }
         }
 
@@ -33,10 +32,10 @@ namespace ConsoleApplication17
             while (true)
             {
                 Console.WriteLine("Введите строку");
-                mas = Console.ReadLine().Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+                mas = Console.ReadLine().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); 
                 if (mas[0] == "sum")
                 {
-                    mas = mas.Except(new string[] {"sum"}).ToArray();
+                  //  mas = mas.Except(new string[] { "sum" }).ToArray(); удаляет повторяющиеся значения, как ни странно
                     Sum a = new Sum(mas);
                     Console.WriteLine(a.Get());
                 }
