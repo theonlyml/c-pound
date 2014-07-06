@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace ConsoleApplication17
+namespace Sum
 {
     class Sum
     {
-        double result;
-        public Sum(List<string> a)
+        private double result;
+
+        public Sum(string[] a)
         {
-            foreach (string term in a)
+            foreach (string el in a)
             {
-                result += double.Parse(term);
+                result += double.Parse(el);
             }
         }
 
@@ -19,24 +18,12 @@ namespace ConsoleApplication17
         {
             return result;
         }
-    }
 
-    class Program
-    {
         static void Main(string[] args)
         {
-            List<string> line=new List<string>();
-            while (true)
-            {
-                Console.WriteLine("Введите строку");
-                line = Console.ReadLine().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList(); 
-                if (line[0] == "sum")
-                {
-                    line.RemoveAt(0);
-                    Sum sum = new Sum(line);
-                    Console.WriteLine(sum.Get());
-                }
-            }
+            string[] mas;
+            Console.WriteLine("Введите строку");
+            mas = Console.ReadLine().Replace('\"', ' ').Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            Console.WriteLine(new Sum(mas).Get());
         }
     }
-}
