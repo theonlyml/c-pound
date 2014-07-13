@@ -43,7 +43,12 @@ internal class Vector
 
     public void ReSize(int n)
     {
-        Array.Resize(ref _array, n);
+        var newArray = new int[n];
+        for (int i = 0; i < n; i++)
+        {
+            newArray[i] = _array[i];
+        }
+        _array = newArray;
     }
 
     public void Clear()
