@@ -6,9 +6,9 @@ internal class ArrayQueueADT
     private static int _tail;
     private int[] _array;
 
-    public static bool Empty
+    public static bool Empty(ArrayQueueADT a)
     {
-        get { return _head == _tail; }
+        return Size(a) == 0;
     }
 
     public static int Size(ArrayQueueADT a)
