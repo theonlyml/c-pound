@@ -2,50 +2,88 @@
 
 internal class ArrayQueue
 {
-    private readonly int[] _queue = new int[16];
-    private int _head;
-    private int _tail;
+    private int[] _array = null;
+    private int _head = 0;
+    private int _tail = 0;
 
-    public ArrayQueue()
+    public int Size
     {
-        _head = 0;
-        _tail = 0;
-    }
-
-    public void Push(int temp)
-    {
+        get
         {
-            _queue[_tail] = temp;
-            _tail = (_tail + 1)%_queue.Length;
-            if (_tail == _head) _head = (_head + 1)%_queue.Length;
+            if (_array == null) return 0;
+            return (_tail + 1 + _array.Length - _head) % _array.Length;
         }
     }
 
-    public int Pop()
+    public bool Empty
     {
-        if (IsEmpty())
-        {
-            Console.WriteLine("Error");
-            throw new ApplicationException("Empty queue pop is denied");
-        }
-        int x = _queue[_head];
-        _head = (_head + 1)%_queue.Length;
-        return x;
+        get { return _head == _tail; }
     }
 
     public int Peek()
     {
-        return _queue[_head];
+        if (Empty) throw new ApplicationException("No elements to peek");
+        return _array[_head];
     }
 
-    public bool IsEmpty()
+    public void Push(int x)
     {
-        return _head == _tail;
+        if (_array == null)
+        {
+            _array = new[] {x, 0};
+        }
+        else
+        {
+            if (_array.Length <= Size +1)
+            {
+                var newArray = new int[_array.Length*2];
+                int i = 0;
+                while (!Empty)
+                {
+                    newArray[i++] = Peek();
+                    _head = (_head + 1)%_array.Length;
+                }
+                _array = newArray;
+                _head = 0;
+                _tail = i - 1;
+                Push(x);
+            }
+            else
+            {
+                _tail = (_tail + 1)%_array.Length;
+                _array[_tail] = x;
+            }
+        }
     }
 
-    public int Size()
+    public void Pop()
     {
-        if (_head > _tail) return _queue.Length - _head + _tail;
-        return _tail - _head;
+        if (Empty)
+        {
+            throw new ApplicationException("Pop from empty queue is absurd!");
+        }
+        _head = (_head + 1)%_array.Length;
+        if (Size <= _array.Length/4)
+        {
+            if (Empty)
+            {
+                _array = null;
+                _head = 0;
+                _tail = 0;
+            }
+            else
+            {
+                var newArray = new int[_array.Length/2];
+                int i = 0;
+                while (!Empty)
+                {
+                    newArray[i++] = Peek();
+                    _head = (_head + 1)%_array.Length;
+                }
+                _array = newArray;
+                _head = 0;
+                _tail = i - 1;
+            }
+        }
     }
 }
