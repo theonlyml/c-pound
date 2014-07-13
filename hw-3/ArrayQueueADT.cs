@@ -19,7 +19,7 @@ internal class ArrayQueueADT
 
     public static int Peek(ArrayQueueADT a)
     {
-        if (Empty) throw new ApplicationException("No elements to peek");
+        if (Empty(a)) throw new ApplicationException("No elements to peek");
         return a._array[_head];
     }
 
@@ -35,7 +35,7 @@ internal class ArrayQueueADT
             {
                 var newArray = new int[a._array.Length*2];
                 int i = 0;
-                while (!Empty)
+                while (!Empty(a))
                 {
                     newArray[i++] = Peek(a);
                     _head = (_head + 1)%a._array.Length;
@@ -55,14 +55,14 @@ internal class ArrayQueueADT
 
     public static void Pop(ArrayQueueADT a)
     {
-        if (Empty)
+        if (Empty(a))
         {
             throw new ApplicationException("Pop from empty queue is absurd!");
         }
         _head = (_head + 1)%a._array.Length;
         if (Size(a) <= a._array.Length/4)
         {
-            if (Empty)
+            if (Empty(a))
             {
                 a._array = null;
                 _head = 0;
@@ -72,7 +72,7 @@ internal class ArrayQueueADT
             {
                 var newArray = new int[a._array.Length/2];
                 int i = 0;
-                while (!Empty)
+                while (!Empty(a))
                 {
                     newArray[i++] = Peek(a);
                     _head = (_head + 1)%a._array.Length;
