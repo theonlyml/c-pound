@@ -2,19 +2,19 @@
 
 internal class ArrayQueueADT
 {
-    private int[] _array = null;
-    private static int _head = 0;
-    private static int _tail = 0;
+    private static int _head;
+    private static int _tail;
+    private int[] _array;
+
+    public static bool Empty
+    {
+        get { return _head == _tail; }
+    }
 
     public static int Size(ArrayQueueADT a)
     {
         if (a._array == null) return 0;
-            return (_tail + 1 + a._array.Length - _head) % a._array.Length;
-    }
-
-    public static bool Empty
-    {
-        get { return _head==_tail; }
+        return (_tail + 1 + a._array.Length - _head)%a._array.Length;
     }
 
     public static int Peek(ArrayQueueADT a)
@@ -23,31 +23,31 @@ internal class ArrayQueueADT
         return a._array[_head];
     }
 
-    public static void Push(ArrayQueueADT a,int x)
+    public static void Push(ArrayQueueADT a, int x)
     {
         if (a._array == null)
         {
-            a._array = new[] { x, 0 };
+            a._array = new[] {x, 0};
         }
         else
         {
             if (a._array.Length <= Size(a) + 1)
             {
-                var newArray = new int[a._array.Length * 2];
+                var newArray = new int[a._array.Length*2];
                 int i = 0;
                 while (!Empty)
                 {
                     newArray[i++] = Peek(a);
-                    _head = (_head + 1) % a._array.Length;
+                    _head = (_head + 1)%a._array.Length;
                 }
                 a._array = newArray;
                 _head = 0;
                 _tail = i - 1;
-                Push(a,x);
+                Push(a, x);
             }
             else
             {
-                _tail = (_tail + 1) % a._array.Length;
+                _tail = (_tail + 1)%a._array.Length;
                 a._array[_tail] = x;
             }
         }
@@ -59,8 +59,8 @@ internal class ArrayQueueADT
         {
             throw new ApplicationException("Pop from empty queue is absurd!");
         }
-        _head = (_head + 1) % a._array.Length;
-        if (Size(a) <= a._array.Length / 4)
+        _head = (_head + 1)%a._array.Length;
+        if (Size(a) <= a._array.Length/4)
         {
             if (Empty)
             {
@@ -70,12 +70,12 @@ internal class ArrayQueueADT
             }
             else
             {
-                var newArray = new int[a._array.Length / 2];
+                var newArray = new int[a._array.Length/2];
                 int i = 0;
                 while (!Empty)
                 {
                     newArray[i++] = Peek(a);
-                    _head = (_head + 1) % a._array.Length;
+                    _head = (_head + 1)%a._array.Length;
                 }
                 a._array = newArray;
                 _head = 0;

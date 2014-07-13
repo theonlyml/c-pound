@@ -2,16 +2,16 @@
 
 internal class ArrayQueueSingleton
 {
-    private static int[] _array = null;
-    private static int _head = 0;
-    private static int _tail = 0;
+    private static int[] _array;
+    private static int _head;
+    private static int _tail;
 
     public static int Size
     {
         get
         {
             if (_array == null) return 0;
-            return (_tail + 1 + _array.Length - _head) % _array.Length;
+            return (_tail + 1 + _array.Length - _head)%_array.Length;
         }
     }
 
@@ -30,18 +30,18 @@ internal class ArrayQueueSingleton
     {
         if (_array == null)
         {
-            _array = new[] { x, 0 };
+            _array = new[] {x, 0};
         }
         else
         {
             if (_array.Length <= Size + 1)
             {
-                var newArray = new int[_array.Length * 2];
+                var newArray = new int[_array.Length*2];
                 int i = 0;
                 while (!Empty)
                 {
                     newArray[i++] = Peek();
-                    _head = (_head + 1) % _array.Length;
+                    _head = (_head + 1)%_array.Length;
                 }
                 _array = newArray;
                 _head = 0;
@@ -50,7 +50,7 @@ internal class ArrayQueueSingleton
             }
             else
             {
-                _tail = (_tail + 1) % _array.Length;
+                _tail = (_tail + 1)%_array.Length;
                 _array[_tail] = x;
             }
         }
@@ -62,8 +62,8 @@ internal class ArrayQueueSingleton
         {
             throw new ApplicationException("Pop from empty queue is absurd!");
         }
-        _head = (_head + 1) % _array.Length;
-        if (Size <= _array.Length / 4)
+        _head = (_head + 1)%_array.Length;
+        if (Size <= _array.Length/4)
         {
             if (Empty)
             {
@@ -73,12 +73,12 @@ internal class ArrayQueueSingleton
             }
             else
             {
-                var newArray = new int[_array.Length / 2];
+                var newArray = new int[_array.Length/2];
                 int i = 0;
                 while (!Empty)
                 {
                     newArray[i++] = Peek();
-                    _head = (_head + 1) % _array.Length;
+                    _head = (_head + 1)%_array.Length;
                 }
                 _array = newArray;
                 _head = 0;

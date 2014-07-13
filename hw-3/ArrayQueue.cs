@@ -2,16 +2,16 @@
 
 internal class ArrayQueue
 {
-    private int[] _array = null;
-    private int _head = 0;
-    private int _tail = 0;
+    private int[] _array;
+    private int _head;
+    private int _tail;
 
     public int Size
     {
         get
         {
             if (_array == null) return 0;
-            return (_tail + 1 + _array.Length - _head) % _array.Length;
+            return (_tail + 1 + _array.Length - _head)%_array.Length;
         }
     }
 
@@ -34,7 +34,7 @@ internal class ArrayQueue
         }
         else
         {
-            if (_array.Length <= Size +1)
+            if (_array.Length <= Size + 1)
             {
                 var newArray = new int[_array.Length*2];
                 int i = 0;
