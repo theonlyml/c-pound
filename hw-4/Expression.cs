@@ -33,6 +33,11 @@ internal class Expression
         {
             return First.Evaluate(x) + Second.Evaluate(x);
         }
+
+        public override string ToString()
+        {
+            return string.Format("{0} + {1}", First, Second);
+        }
     }
 
 
@@ -48,6 +53,11 @@ internal class Expression
         public int Evaluate(int x)
         {
             return _value;
+        }
+
+        public override string ToString()
+        {
+            return _value.ToString();
         }
     }
 
@@ -92,6 +102,11 @@ internal class Expression
         {
             return First.Evaluate(x) - Second.Evaluate(x);
         }
+
+        public override string ToString()
+        {
+            return string.Format("{0} - {1}", First, Second);
+        }
     }
 
     public class Multiply : BinaryOperation
@@ -105,6 +120,23 @@ internal class Expression
         {
             return First.Evaluate(x)*Second.Evaluate(x);
         }
+
+        public override string ToString()
+        {
+            if (First is Add || First is Subtract)
+            {
+                if (Second is Add || Second is Subtract)
+                {
+                    return string.Format("({0}) * ({1})", First, Second);
+                }
+                return string.Format("({0}) * {1}", First, Second);
+            }
+            if (Second is Add || Second is Subtract)
+            {
+                return string.Format("{0} * ({1})", First, Second);
+            }
+            return string.Format("{0} * {1}", First, Second);
+        }
     }
 
     public class Divide : BinaryOperation
@@ -117,6 +149,23 @@ internal class Expression
         public override int Evaluate(int x)
         {
             return First.Evaluate(x)/Second.Evaluate(x);
+        }
+
+        public override string ToString()
+        {
+            if (First is Add || First is Subtract)
+            {
+                if (Second is Add || Second is Subtract)
+                {
+                    return string.Format("({0}) / ({1})", First, Second);
+                }
+                return string.Format("({0}) / {1}", First, Second);
+            }
+            if (Second is Add || Second is Subtract)
+            {
+                return string.Format("{0} / ({1})", First, Second);
+            }
+            return string.Format("{0} / {1}", First, Second);
         }
     }
 
@@ -133,14 +182,19 @@ internal class Expression
         {
             return x;
         }
+
+        public override string ToString()
+        {
+            return _name;
+        }
     }
 
 
-    private static void Main(string[] args)
+    private static void Main()
     {
         Console.WriteLine(
             new Add(
                 new Subtract(new Multiply(new Variable("x"), new Variable("x")),
-                    new Multiply(new Const(2), new Variable("x"))), new Const(1)).Evaluate(3));
+                    new Multiply(new Const(2), new Variable("x"))), new Const(1)));
     }
 }
